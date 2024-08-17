@@ -26,4 +26,4 @@ class Student extends Person{
 
 let student: Student = new Student("John Wick", 49, "Science Computing");
 
-student.showInfo().
+student.showInfo()
