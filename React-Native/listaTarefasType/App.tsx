@@ -1,8 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
 import { NativeBaseProvider, Center, Text, Box } from 'native-base';
+import { AddTask } from './components/AddTask';
+import { useState } from 'react';
+import { ListTasks } from './components/ListTasks';
 
 export default function App() {
+  const [tasks, setTasks] = useState<string[]>([])
+
+  const addTask = (newTask: string) =>{
+    setTasks([...tasks, newTask])
+  }
   return (
     <NativeBaseProvider>
       <Center background="white" >
@@ -11,18 +18,10 @@ export default function App() {
             Olá, mundo!
           </Text>
         </Box>
-      
       </Center>
+      <AddTask onAddTask={addTask}></AddTask>
+      <ListTasks taskList={tasks}></ListTasks>
     </NativeBaseProvider>
     
-  );
+  );  
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
