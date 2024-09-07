@@ -30,7 +30,15 @@ export const GlobalStateProvider: React.FC<{children: React.ReactNode}> = ({chil
         }
         setTask([...tasks, newTask])
 
-        saveTasks(tasks);
+        saveTasks(tasks);   
+    }
+
+    const editTask = (taskId: number, newTitle: string)=>{
+        const updatedTasks: Task[] = tasks.map(e=>
+             e.id === taskId ? {...e, title: newTitle} : e)
+        setTask(updatedTasks)
+
+        saveTasks(updatedTasks);
     }
 
     useEffect(()=>{
