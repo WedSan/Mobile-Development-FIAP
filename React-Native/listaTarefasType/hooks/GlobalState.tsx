@@ -9,11 +9,15 @@ interface Task{
 interface GlobalContextState{
     tasks: Task[],
     addTask: (titulo: string) => void;
+    editTask: (titleId: number, taskTitle: string) => void;
+    deleteTask: (taskId: number)=> void;
 }
 
 const globalContextState: Context<GlobalContextState> = createContext<GlobalContextState>({
     tasks: [],
-    addTask: () => {}
+    addTask: () => {},
+    editTask: ()=> {},
+    deleteTask: ()=> {}
 })
 
 export const useGlobalState = () => useContext(globalContextState)
@@ -39,6 +43,14 @@ export const GlobalStateProvider: React.FC<{children: React.ReactNode}> = ({chil
         setTask(updatedTasks)
 
         saveTasks(updatedTasks);
+    }
+
+    const deleteTask = (taskId: number)=>{
+        const newTasks = tasks.filter(e => e.id !== taskId)
+        
+        setTask(newTasks)
+
+        saveTasks(newTasks)
     }
 
     useEffect(()=>{
@@ -68,7 +80,7 @@ export const GlobalStateProvider: React.FC<{children: React.ReactNode}> = ({chil
     }
 
     return (
-        <globalContextState.Provider value={{tasks, addTask}}>
+        <globalContextState.Provider value={{tasks, addTask, editTask, deleteTask}}>
             {children}
         </globalContextState.Provider>
     )
