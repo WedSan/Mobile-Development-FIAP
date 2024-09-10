@@ -11,6 +11,17 @@ export const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
 
     const [taskName, setTaskName] = useState<string>("");
 
+
+    const handleAddTaskButton = ()=>{
+        if(taskName.trim() === ""){
+            return 
+        }
+        
+        onAddTask(taskName)
+        
+        setTaskName("")
+    }
+
     return (
         <View style={{ backgroundColor: '#402291', paddingVertical: 20, paddingHorizontal: 20, paddingTop: 50 }}>
             <Text fontSize="xl" color="white" mb={4}>To-Do List</Text>
@@ -28,7 +39,7 @@ export const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
                 <IconButton
                     icon={<Ionicons name="add" size={24} color="#402291" />}
                     colorScheme="light"
-                    onPress={() => onAddTask(taskName)}
+                    onPress={() => handleAddTaskButton()}
                     style={{ borderRadius: 50, backgroundColor: 'gold' }}
                 />
             </View>
