@@ -1,10 +1,6 @@
 import {Context, createContext, useContext, useEffect, useState} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-interface Task{
-    id: number,
-    title: string
-}
+import { Task } from "../types/TaskType";
 
 interface GlobalContextState{
     tasks: Task[],
