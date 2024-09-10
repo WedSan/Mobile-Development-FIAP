@@ -3,7 +3,7 @@ import { FlatList, Box, Text } from "native-base";
 import { useGlobalState } from "../hooks/GlobalState";
 import { TaskItem } from "./TaskItem";
 
-export const ListTasks: React.FC<ListTasksProps> = () => {
+export const ListTasks: React.FC = () => {
 
     const {tasks} = useGlobalState();
 
