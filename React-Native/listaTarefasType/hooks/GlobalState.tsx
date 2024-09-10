@@ -28,9 +28,10 @@ export const GlobalStateProvider: React.FC<{children: React.ReactNode}> = ({chil
             id: Date.now(),
             title
         }
-        setTask([...tasks, newTask])
 
-        saveTasks(tasks);   
+        const updatedTasks = [...tasks, newTask]
+        setTask(updatedTasks)
+        saveTasks(updatedTasks);   
     }
 
     const editTask = (taskId: number, newTitle: string)=>{
@@ -49,22 +50,22 @@ export const GlobalStateProvider: React.FC<{children: React.ReactNode}> = ({chil
         saveTasks(newTasks)
     }
 
-    useEffect(()=>{
-        const loadTasks = ()=>{
-        
-            const storagedTasksPromise: Promise<string | null> = AsyncStorage.getItem("tasks");
-            storagedTasksPromise.then(
-                (storagedTasks)=> storagedTasks != null ? setTask(JSON.parse(storagedTasks)) : null)
-            
-            setIsLoading(false)
-        }
-
-        loadTasks()
-    })
-
-    useEffect(()=>{
-        saveTasks(tasks)
-    }, [tasks])
+    useEffect(() => {
+        const loadTasks = async () => {
+            try {
+                const storagedTasks = await AsyncStorage.getItem("tasks");
+                if (storagedTasks) {
+                    setTask(JSON.parse(storagedTasks));
+                }
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+    
+        loadTasks();
+    }, []);
 
     const saveTasks = async (tasks: Task[])=>{
         try{
