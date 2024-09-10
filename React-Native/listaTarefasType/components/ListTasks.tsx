@@ -1,28 +1,21 @@
-import React from "react";
+import React, {useState} from "react";
 import { FlatList, Box, Text } from "native-base";
+import { useGlobalState } from "../hooks/GlobalState";
+import { TaskItem } from "./TaskItem";
 
-interface ListTasksProps {
-    taskList: string[];
-}
+export const ListTasks: React.FC<ListTasksProps> = () => {
 
-export const ListTasks: React.FC<ListTasksProps> = ({ taskList }) => {
+    const {tasks} = useGlobalState();
 
     return (
         <FlatList
-            data={taskList}
+            data={tasks}
             renderItem={({ item }) => (
-                <Box
-                    bg="gray.200"
-                    p={4}
-                    alignItems="flex-start"
-                    my={2}
-                    mx={2}
-                >
-                    <Text>{item}</Text>
-                </Box>
+                <TaskItem id={item.id} title={item.title}></TaskItem>
             )}
-            keyExtractor={(item, index) => index.toString()}
+            keyExtractor={(item) => item.id.toString()}
             contentContainerStyle={{ flexGrow: 1 }}
+            style={{width: '100%', backgroundColor: '#402291'}}
         />
     );
 };
