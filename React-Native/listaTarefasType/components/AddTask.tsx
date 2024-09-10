@@ -2,22 +2,20 @@ import { View, Input, Text } from "native-base";
 import { IconButton } from "native-base";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { useGlobalState } from "../hooks/GlobalState";
 
-interface AddTaskProps {
-    onAddTask: (task: string) => void;
-}
-
-export const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
+export const AddTask: React.FC = () => {
 
     const [taskName, setTaskName] = useState<string>("");
-
+    
+    const {addTask} = useGlobalState()
 
     const handleAddTaskButton = ()=>{
         if(taskName.trim() === ""){
             return 
         }
         
-        onAddTask(taskName)
+        addTask(taskName)
         
         setTaskName("")
     }
