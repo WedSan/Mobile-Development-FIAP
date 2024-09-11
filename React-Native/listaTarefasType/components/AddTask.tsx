@@ -26,7 +26,7 @@ export const AddTask: React.FC = () => {
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <View style={{ flex: 1, marginRight: 10 }}>
                     <Input
-                        placeholder="Digite uma tarefa"
+                        placeholder="Enter a task"
                         placeholderTextColor="white"
                         value={taskName}
                         onChangeText={(taskText) => setTaskName(taskText)}

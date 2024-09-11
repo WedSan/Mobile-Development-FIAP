@@ -33,7 +33,7 @@ export const TaskItem: React.FC<Task> = ({id, title}) =>{
                     borderRadius={8}>  
                         <Input
                         borderColor={'purple'}
-                        placeholder="Novo nome tarefa"
+                        placeholder="New task name"
                         placeholderTextColor="black"
                         style={{color: 'black', borderColor: 'purple'}}
                         onChangeText={(text)=> setNewTitle(text)}
