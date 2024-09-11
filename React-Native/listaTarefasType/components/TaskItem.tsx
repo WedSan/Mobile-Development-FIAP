@@ -1,9 +1,10 @@
 import { useState } from "react"
 import { Task } from "../types/TaskType"
-import { Box, Text } from "native-base"
+import { Box, Text, Button } from "native-base"
+
 
 export const TaskItem: React.FC<Task> = ({id, title}) =>{
-    const [isEditing, setIsEditigin] = useState<boolean>(false)
+    const [isEditing, setEditing] = useState<boolean>(false)
 
     const [newTitle, setNewTitle] = useState<string>(title)
 
@@ -18,7 +19,10 @@ export const TaskItem: React.FC<Task> = ({id, title}) =>{
         mx={2} 
         borderRadius={8} 
         >
-            <Text flex={3} fontSize={18}> {title} </Text>
+            <Text flex={3} fontSize={18} overflow={'hidden'}> {title}  </Text>
+            <Button size={'md'} variant={'solid'}>
+                edit
+            </Button>
         </Box>
     )
 }
