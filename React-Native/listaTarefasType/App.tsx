@@ -16,7 +16,7 @@ export default function App() {
         <Center background="white" >
             <Box background="white">
               <Text fontSize="2xl" color="primary.500" fontWeight="bold" fontFamily="Roboto">
-                Olá, mundo!
+                To-Do List App
               </Text>
             </Box>
           </Center>
