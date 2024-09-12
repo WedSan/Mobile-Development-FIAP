@@ -67,3 +67,19 @@ app.put("/task/:id", (req, res)=>{
         }
     });
 });
+
+app.delete("/task/:id", (req, res)=>{
+    const {id} = req.params;
+
+    db.run("DELETE FROM TASK WHERE ID = ?", [id], function(err){
+        if(err){
+            res.status(500).json({error: err.message});
+        }
+        else if(this.changes){
+            res.status(204).json();
+        }
+        else{
+            res.status(404).json({message: `Task ${id} not found`});
+        }
+    });
+});
