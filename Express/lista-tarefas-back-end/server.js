@@ -46,7 +46,7 @@ app.get("/task/:id", (req, res)=>{
             res.status(200).json(row);
         }
         else{
-            res.status(404).json({error: `Task ${id} not found `});
+            res.status(404).json({message: `Task ${id} not found `});
         }
     });
     
