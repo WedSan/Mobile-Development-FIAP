@@ -52,3 +52,18 @@ app.get("/task/:id", (req, res)=>{
     
 });
 
+app.put("/task/:id", (req, res)=>{
+    const {id} = req.params;
+    const {task} = req.body;
+    db.run("UPDATE TASK SET NAME = ? WHERE ID = ?", [task, id], function(err){
+        if(err){
+            res.status(500).json({error: err.message});
+        }
+        else if(this.changes){
+            res.status(200).json({message: "Task updated successfully"});
+        }
+        else{
+            res.status(404).json({message: `Task ${id} not found `});
+        }
+    });
+});
