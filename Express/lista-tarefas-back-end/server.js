@@ -26,3 +26,12 @@ app.post("/task", (req, res)=>{
     })
 });
 
+
+app.get("/task", (req, res)=>{
+    db.all("SELECT * FROM TASK ", (err, rows)=>{
+        if(err){
+            res.status(500).json({error: err.message});
+        }
+        res.status(200).json(rows)
+    })
+})
