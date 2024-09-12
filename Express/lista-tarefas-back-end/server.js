@@ -32,9 +32,9 @@ app.get("/task", (req, res)=>{
         if(err){
             res.status(500).json({error: err.message});
         }
-        res.status(200).json(rows)
-    })
-})
+        res.status(200).json(rows);
+    });
+});
 
 app.get("/task/:id", (req, res)=>{  
     const {id} = req.params;
