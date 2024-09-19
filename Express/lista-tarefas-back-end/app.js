@@ -7,6 +7,6 @@ app.use(express.json());
 
 createTables();
 
-app.use("/api", taskRouter);
+app.use("/api/task", taskRouter);
 
 module.exports = app
