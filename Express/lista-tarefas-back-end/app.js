@@ -3,7 +3,7 @@ const app = express();
 const taskRouter = require('./routes/taskRoutes');
 const userRouter = require("./routes/userRoutes")
 const {createTables} = require('./db/db');
-const authMiddleware = require('./authMiddleware/authMiddleware');
+const authMiddleware = require('./middlewares/authMiddleware/authMiddleware');
 
 app.use(express.json());
 
