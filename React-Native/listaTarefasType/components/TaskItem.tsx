@@ -1,72 +1,88 @@
-import { useState } from "react"
-import { Task } from "../types/TaskType"
-import { Box, Text, Button, View, Input, IconButton } from "native-base"
-import {Ionicons} from "@expo/vector-icons"
-import { useGlobalState } from "../hooks/GlobalState"
+import React, {useState} from "react"
+import {Box, Button, HStack, IconButton, Input, Modal, Text, View} from "native-base"
+import {AntDesign, MaterialIcons} from "@expo/vector-icons"
 
-export const TaskItem: React.FC<Task> = ({id, title}) =>{
+interface TaskItemProps{
+    id: number;
+    title: string;
+    onUpdate: (id: number, newTitle: string) => Promise<void>;
+    onDelete: (id: number) => void;
+}
 
-    const [isEditing, setEditing] = useState<boolean>(false)    
-    const [newTitle, setNewTitle] = useState<string>(title)
+export const TaskItem: React.FC<TaskItemProps> = ({id, title, onUpdate, onDelete}) =>{
 
-    const {editTask, deleteTask} = useGlobalState()
+    const [isEditing, setEditing] = useState<boolean>(false);
+    const [newTitle, setNewTitle] = useState<string>(title);
+    const [userWantsModalOpen, setUserWantsModalOpen] = useState<boolean>(false);
 
 
-    const handleEditPress = ()=>{
-        
-        editTask(id, newTitle)
-        setEditing(false)
+    const handleEditPress = async ()=>{
+        await onUpdate(id, newTitle);
+        setEditing(false);
+    }
+
+    const handleDeletePress = async ()=>{
+        onDelete(id);
+        setUserWantsModalOpen(false);
     }
 
     return(
         <View>
-            {
-                isEditing ? (
-                    <Box  
-                    flexDirection="row" 
-                    justifyContent="space-between" 
-                    alignItems="center" 
-                    bg="#F2CC00" 
-                    p={4} 
-                    my={2} 
-                    mx={2} 
-                    borderRadius={8}>  
-                        <Input
-                        borderColor={'purple'}
-                        placeholder="New task name"
-                        placeholderTextColor="black"
-                        style={{color: 'black', borderColor: 'purple'}}
-                        onChangeText={(text)=> setNewTitle(text)}
-                        fontSize={14}
-                        width={'70%'}
-                        color="white"
-                        >
-                        </Input>
-                        <IconButton icon={<Ionicons name="checkbox" size={32} color={"purple"}/>} onPress={()=>handleEditPress()}
-                        ></IconButton> 
-                        
-                    </Box>
-                ) : (<Box
-                    flexDirection="row"     
-                    justifyContent="space-between" 
-                    alignItems="center" 
-                    bg="gray.200" 
-                    p={4} 
-                    my={2} 
-                    mx={2} 
-                    borderRadius={8} 
-                    >
-                        <Text flex={3} fontSize={18} overflow={'hidden'}> {title}  </Text>
-                        
-                        <Button size={'md'} variant={'solid'} onPress={()=> setEditing(true)} mr={'25px'}>
-                            edit
-                        </Button>
-                        <Button size={'md'} backgroundColor={'red.600'} variant={'solid'} onPress={()=> deleteTask(id)}>
-                            delete
-                        </Button>
-                        
+            {(
+                <Box
+                    flexDirection="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    bg="gray.200"
+                    p={4}
+                    my={2}
+                    mx={2}
+                    borderRadius={8}
+                >
+                    {isEditing ? (
+                        <HStack flex={3} alignItems="center">
+                            <Input
+                                value={newTitle}
+                                onChangeText={setNewTitle}
+                                onBlur={() => setEditing(false)}
+                                autoFocus
+                            />
+                            <IconButton icon={<AntDesign name="check" size={24} />} onPress={handleEditPress} />
+                        </HStack>
+                    ) : (
+                        <Text flex={3} fontSize={18}>{title}</Text>
+                    )}
+                    <HStack space={2}>
+                        <IconButton
+                            icon={<AntDesign name="edit" size={24} />}
+                            onPress={() => setEditing(!isEditing)}
+                        />
+                        <IconButton
+                            icon={<MaterialIcons name="delete" size={24} />}
+                            onPress={() => setUserWantsModalOpen(true)} // Abre o modal de confirmação
+                        />
+                    </HStack>
 
-                    </Box>)
+                    <Modal isOpen={userWantsModalOpen} onClose={() => setUserWantsModalOpen(false)}>
+                        <Modal.Content>
+                            <Modal.Header>Delete Task</Modal.Header>
+                            <Modal.Body>
+                                Do you really want to delete this task?
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button.Group>
+                                    <Button colorScheme="coolGray" onPress={() => setUserWantsModalOpen(false)}>
+                                        Cancel
+                                    </Button>
+                                    <Button colorScheme="danger" onPress={handleDeletePress}>
+                                        Delete
+                                    </Button>
+                                </Button.Group>
+                            </Modal.Footer>
+                        </Modal.Content>
+                    </Modal>
+                </Box>
+            )
             }
             
         </View>
