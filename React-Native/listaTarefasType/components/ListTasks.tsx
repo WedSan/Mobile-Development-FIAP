@@ -33,8 +33,9 @@ export const ListTasks: React.FC = () => {
                     navigation.navigate("LoginScreen"); // Redireciona para a tela de login
                     return;
                 }
+                console.log(token)
 
-                const response = await fetch('http://localhost:3000/api/task', {
+                const response = await fetch('http://localhost:5000/api/task', {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -46,7 +47,8 @@ export const ListTasks: React.FC = () => {
                 }
 
                 const data = await response.json();
-                setTasks(data);
+                const mappedTasks = data.map((task: any) => ({id: task.id, title: task.name}));
+                setTasks(mappedTasks);
             } catch (error) {
                 setError("Error when loading task");
             } finally {
@@ -55,6 +57,7 @@ export const ListTasks: React.FC = () => {
 
         }
         fetchTasks();
+
     }, []);
 
     const handleUpdate = async(id: number, taskName: string) =>{
