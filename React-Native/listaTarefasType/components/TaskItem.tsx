@@ -50,7 +50,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({id, title, onUpdate, onDelete
                             <IconButton icon={<AntDesign name="check" size={24} />} onPress={handleEditPress} />
                         </HStack>
                     ) : (
-                        <Text flex={3} fontSize={18}>{title}</Text>
+                        <Text flex={3} fontSize={18}>{newTitle}</Text>
                     )}
                     <HStack space={2}>
                         <IconButton
