@@ -81,7 +81,7 @@ export const ListTasks: React.FC = () => {
     const handleDelete = async(id: number)=>{
         const token: string | null = await AsyncStorage.getItem('token');
 
-        const response = await fetch(`http://localhost:3000/api/task/${id}`, {
+        const response = await fetch(`http://localhost:5000/api/task/${id}`, {
             method: "DELETE",
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -89,10 +89,10 @@ export const ListTasks: React.FC = () => {
         });
 
         if(!response.ok) {
-            setAlertMessage("")
+            setAlertMessage("Failed to delete task. Try it later")
         }
         setTasks(tasks => tasks.filter(e => e.id !== id));
-        setAlertMessage("Failed to delete task. Try it later");
+        setAlertMessage("Task deleted successfully!");
         setIsOpen(false);
     }
 
