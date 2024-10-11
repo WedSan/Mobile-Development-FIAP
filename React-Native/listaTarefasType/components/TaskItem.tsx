@@ -59,28 +59,11 @@ export const TaskItem: React.FC<TaskItemProps> = ({id, title, onUpdate, onDelete
                         />
                         <IconButton
                             icon={<MaterialIcons name="delete" size={24} />}
-                            onPress={() => setUserWantsModalOpen(true)} // Abre o modal de confirmação
+                            onPress={() => handleDeletePress()} // Abre o modal de confirmação
                         />
                     </HStack>
 
-                    <Modal isOpen={userWantsModalOpen} onClose={() => setUserWantsModalOpen(false)}>
-                        <Modal.Content>
-                            <Modal.Header>Delete Task</Modal.Header>
-                            <Modal.Body>
-                                Do you really want to delete this task?
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Button.Group>
-                                    <Button colorScheme="coolGray" onPress={() => setUserWantsModalOpen(false)}>
-                                        Cancel
-                                    </Button>
-                                    <Button colorScheme="danger" onPress={handleDeletePress}>
-                                        Delete
-                                    </Button>
-                                </Button.Group>
-                            </Modal.Footer>
-                        </Modal.Content>
-                    </Modal>
+
                 </Box>
             )
             }
