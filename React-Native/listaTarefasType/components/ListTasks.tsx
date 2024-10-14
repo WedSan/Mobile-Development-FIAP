@@ -7,6 +7,7 @@ import {Task} from "../types/TaskType";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {RootStackParamList} from "../types/RootStackParamList";
 import {Dimensions} from "react-native";
+import {AddTask} from "./AddTask";
 
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -25,39 +26,39 @@ export const ListTasks: React.FC = () => {
     const cancelRef = React.useRef(null);
 
 
-    useEffect(() => {
-        const fetchTasks = async ()=>{
-            try {
-                const token = await AsyncStorage.getItem('token');
-                if (!token) {
-                    navigation.navigate("LoginScreen"); // Redireciona para a tela de login
-                    return;
-                }
-                console.log(token)
+    const fetchTasks = async ()=>{
+        try {
+            const token = await AsyncStorage.getItem('token');
+            if (!token) {
+                navigation.navigate("LoginScreen"); // Redireciona para a tela de login
+                return;
+            }
+            console.log(token)
 
-                const response = await fetch('http://localhost:5000/api/task', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                    },
-                });
+            const response = await fetch('http://localhost:5000/api/task', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
 
-                if (!response.ok) {
-                    throw new Error('Erro to fetch task');
-                }
-
-                const data = await response.json();
-                const mappedTasks = data.map((task: any) => ({id: task.id, title: task.name}));
-                setTasks(mappedTasks);
-            } catch (error) {
-                setError("Error when loading task");
-            } finally {
-                setLoading(false);
+            if (!response.ok) {
+                throw new Error('Erro to fetch task');
             }
 
+            const data = await response.json();
+            const mappedTasks = data.map((task: any) => ({id: task.id, title: task.name}));
+            setTasks(mappedTasks);
+        } catch (error) {
+            setError("Error when loading task");
+        } finally {
+            setLoading(false);
         }
-        fetchTasks();
 
+    }
+
+    useEffect(() => {
+        fetchTasks();
     }, []);
 
     const handleUpdate = async(id: number, taskName: string) =>{
@@ -119,6 +120,7 @@ export const ListTasks: React.FC = () => {
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1, backgroundColor: '#402291' }} style={{ height:  height}}>
+            <AddTask onAddTask={fetchTasks}></AddTask>
             <FlatList
                 data={tasks}
                 renderItem={({ item }) => (
