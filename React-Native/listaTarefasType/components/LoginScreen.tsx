@@ -42,7 +42,7 @@ export const LoginScreen: React.FC = ()=>{
     return(
         <Box>
             <Input value={username} onChangeText={setUsername} placeholder="Username" />
-            <Input value={password} onChangeText={setPassword} placeholder="Password"></Input>
+            <Input value={password} type={'password'} onChangeText={setPassword} placeholder="Password"></Input>
             <Box>
                 <Button onPress={sendLogIn} > Send </Button>
             </Box>
