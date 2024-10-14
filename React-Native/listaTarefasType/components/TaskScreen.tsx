@@ -14,7 +14,6 @@ export const TaskScreen: React.FC = ()=>{
                     </Text>
                 </Box>
             </Center>
-            <AddTask></AddTask>
             <ListTasks></ListTasks>
         </GlobalStateProvider>
     )
