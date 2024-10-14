@@ -6,8 +6,9 @@ const {createTables} = require('./db/db');
 const authMiddleware = require('./middlewares/authMiddleware/authMiddleware');
 const cors = require('cors')
 
-app.use(express.json());
+
 app.use(cors());
+app.use(express.json());
 
 createTables();
 
