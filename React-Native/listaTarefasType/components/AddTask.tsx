@@ -1,20 +1,50 @@
 import { View, Input, Text } from "native-base";
 import { IconButton } from "native-base";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useGlobalState } from "../hooks/GlobalState";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const AddTask: React.FC = () => {
+interface AddTaskProps{
+    onAddTask: ()=> void;
+}
+
+export const AddTask: React.FC<AddTaskProps> = ({onAddTask}) => {
 
     const [taskName, setTaskName] = useState<string>("");
     
     const {addTask} = useGlobalState()
 
-    const handleAddTaskButton = ()=>{
+    const handleAddTaskButton = async()=>{
         if(taskName.trim() === ""){
             return 
         }
-        
+        try{
+            const token = await AsyncStorage.getItem("token");
+            if(!token){
+                console.log("Token não encontrado");
+                return;
+            }
+
+            const response: Response = await fetch('http://localhost:5000/api/task', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({task: taskName})
+            });
+
+            if(!response.ok){
+                throw new Error("Failed to create task");
+            }
+
+            onAddTask();
+        }
+        catch(error){
+            console.log("erro ao adicionar tarefa" + error)
+        }
+
         addTask(taskName)
         
         setTaskName("")
