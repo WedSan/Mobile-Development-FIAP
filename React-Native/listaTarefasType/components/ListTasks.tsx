@@ -63,16 +63,18 @@ export const ListTasks: React.FC = () => {
 
     const handleUpdate = async(id: number, taskName: string) =>{
         const token: string | null = await AsyncStorage.getItem('token');
-
-        const response = await fetch(`http://localhost:3000/task/${id}`, {
+        console.log('Task name is: ' + taskName)
+        const response = await fetch(`http://localhost:5000/api/task/${id}`, {
             method: 'PUT',
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({task: taskName})
         });
 
         if(!response.ok){
+            console.log(response)
             throw new Error("Failed to update task");
         }
 

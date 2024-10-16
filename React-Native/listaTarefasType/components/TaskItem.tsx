@@ -44,7 +44,6 @@ export const TaskItem: React.FC<TaskItemProps> = ({id, title, onUpdate, onDelete
                             <Input
                                 value={newTitle}
                                 onChangeText={setNewTitle}
-                                onBlur={() => setEditing(false)}
                                 autoFocus
                             />
                             <IconButton icon={<AntDesign name="check" size={24} />} onPress={handleEditPress} />
