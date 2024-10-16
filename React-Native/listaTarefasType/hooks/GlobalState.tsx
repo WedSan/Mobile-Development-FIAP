@@ -26,7 +26,7 @@ export const GlobalStateProvider: React.FC<{children: React.ReactNode}> = ({chil
     const addTask = (title: string) => {
         const newTask: Task = {
             id: Date.now(),
-            title
+            title: title
         }
 
         const updatedTasks = [...tasks, newTask]
