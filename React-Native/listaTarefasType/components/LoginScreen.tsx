@@ -1,9 +1,10 @@
 import React from "react";
-import {Box, Button, IconButton, Input} from "native-base";
+import {Box, Button, Center, FormControl, Heading, IconButton, Input, VStack} from "native-base";
 import {AntDesign} from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useNavigation} from "@react-navigation/native";
 import {StackNavigationProp} from "@react-navigation/stack";
+import {flexbox} from "native-base/lib/typescript/theme/styled-system";
 
 type RootStackParamList = {
     LoginScreen: undefined;
@@ -40,13 +41,30 @@ export const LoginScreen: React.FC = ()=>{
     }
 
     return(
-        <Box>
-            <Input value={username} onChangeText={setUsername} placeholder="Username" />
-            <Input value={password} type={'password'} onChangeText={setPassword} placeholder="Password"></Input>
-            <Box>
-                <Button onPress={sendLogIn} > Send </Button>
-            </Box>
+      <Center w="100%" h="90%" alignItems="center" justifyContent="center">
+          <Box safeArea p="2" py="8" w="90%" maxWidth="290">
+              <Heading size="lg" fontWeight="600" color="purple.500">
+                  Task List
+              </Heading>
+              <Heading mt="1" fontSize="medium" size="xs">
+                  Sign in
+              </Heading>
+              <VStack space="3" mt="5">
+                  <FormControl>
+                      <FormControl.Label> Username </FormControl.Label>
+                      <Input value={username} onChangeText={setUsername} placeholder="Username" />
+                  </FormControl>
 
-        </Box>
+                  <FormControl>
+                      <FormControl.Label> Password </FormControl.Label>
+                      <Input value={password} type={'password'} onChangeText={setPassword} placeholder="Password"></Input>
+                  </FormControl>
+
+              </VStack>
+              <Box mt="5">
+                  <Button onPress={sendLogIn} colorScheme="purple"> Send </Button>
+              </Box>
+          </Box>
+        </Center>
     )
 }
