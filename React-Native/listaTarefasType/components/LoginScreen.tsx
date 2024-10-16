@@ -1,5 +1,5 @@
-import React from "react";
-import {Box, Button, Center, FormControl, Heading, IconButton, Input, VStack} from "native-base";
+import React, {useRef} from "react";
+import {AlertDialog, Box, Button, Center, FormControl, Heading, IconButton, Input, VStack} from "native-base";
 import {AntDesign} from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useNavigation} from "@react-navigation/native";
@@ -18,7 +18,8 @@ export const LoginScreen: React.FC = ()=>{
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
     const navigation = useNavigation<NavigationProp>();
-
+    const [isAlertMessageOpen, setIsAlertMessageOpen] = React.useState<boolean>(false);
+    const cancelRef = useRef<HTMLDivElement>(null);
 
     const sendLogIn = async () =>{
         const response: Response = await fetch("http://localhost:5000/api/user/login", {
@@ -30,6 +31,7 @@ export const LoginScreen: React.FC = ()=>{
         })
 
         if(!response.ok){
+            setIsAlertMessageOpen(true);
             throw new Error("Failed to login");
         }
 
@@ -65,6 +67,20 @@ export const LoginScreen: React.FC = ()=>{
                   <Button onPress={sendLogIn} colorScheme="purple"> Send </Button>
               </Box>
           </Box>
+
+          <AlertDialog isOpen={isAlertMessageOpen} onClose={() => setIsAlertMessageOpen(false)} leastDestructiveRef={cancelRef}>
+              <AlertDialog.Content>
+                  <AlertDialog.Header>Notification</AlertDialog.Header>
+                  <AlertDialog.Body>
+                        Username or password invalid!
+                  </AlertDialog.Body>
+                  <AlertDialog.Footer>
+                      <Button colorScheme="coolGray" onPress={() => setIsAlertMessageOpen(false)}>
+                          Close
+                      </Button>
+                  </AlertDialog.Footer>
+              </AlertDialog.Content>
+          </AlertDialog>
         </Center>
     )
 }
